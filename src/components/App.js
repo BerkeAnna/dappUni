@@ -4,6 +4,7 @@ import logo from '../logo.png';
 import './App.css';
 import Marketplace from '../abis/Marketplace.json'
 import Navbar from './Navbar'
+import Main from './Main'
 
 class App extends Component {
 
@@ -35,9 +36,13 @@ class App extends Component {
 
     if(networkData){
       const marketplace = web3.eth.Contract(Marketplace.abi, networkData.address)
-      console.log(marketplace)
+      this.setState({ marketplace })
+      //const productCount = await marketplace.methods.productCount().call()
+      //console.log(productCount)
+      
+      this.setState({ loading: false })
     }else{
-      windiw.alert('Marketplace contract not deployed to detected network.')
+      window.alert('Marketplace contract not deployed to detected network.')
     }
    
   }
@@ -50,37 +55,30 @@ class App extends Component {
       products: [],
       loading: true
     }
+    this.createProduct = this.createProduct.bind(this)
+  }
+
+  createProduct(name, price){
+    this.setState({ loading: true})
+    this.state.marketplace.methods.createProduct(name, price).send({ from: this.state.account })
+      .once('receipt', (receipt) => {
+          this.setState({ loading: false })
+      })
+
   }
 
   render() {
     return (
       <div>
         <Navbar account={this.state.account}/>
-        <div className="container-fluid mt-5">
-          <div className="row">
-            <main role="main" className="col-lg-12 d-flex text-center">
-              <div className="content mr-auto ml-auto">
-                <a
-                  href="http://www.dappuniversity.com/bootcamp"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  <img src={logo} className="App-logo" alt="logo" />
-                </a>
-                <h1>Dapp University Starter Kit</h1>
-                <p>
-                  Edit <code>src/components/App.js</code> and save to reload.
-                </p>
-                <a
-                  className="App-link"
-                  href="http://www.dappuniversity.com/bootcamp"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  LEARN BLOCKCHAIN <u><b>NOW! </b></u>
-                </a>
-              </div>
-            </main>
+        <div className='container-fluid mt-5'>
+          <div className='row'>
+            <main role="main" className='col-lg-12 d-flex'>
+              { this.state.loading 
+                ? <div id='loader' className='text-center'><p className='teyt-center'>Loading...</p></div> 
+                : <Main createProduct={this.createProduct} /> 
+              }
+            </main> 
           </div>
         </div>
       </div>
