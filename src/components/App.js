@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import Web3 from 'web3'
 import logo from '../logo.png';
 import './App.css';
+import Marketplace from '../abis/Marketplace.json'
+import Navbar from './Navbar'
 
 class App extends Component {
 
@@ -28,33 +30,32 @@ class App extends Component {
     const web3 = window.web3
     const accounts = await web3.eth.getAccounts()
     this.setState({ account: accounts[0] })
+    const networkId = await web3.eth.net.getId() // now 5777
+    const networkData = Marketplace.networks[networkId]
+
+    if(networkData){
+      const marketplace = web3.eth.Contract(Marketplace.abi, networkData.address)
+      console.log(marketplace)
+    }else{
+      windiw.alert('Marketplace contract not deployed to detected network.')
+    }
+   
   }
 
   constructor(props){
     super(props)
     this.state = {
-      account: ''
+      account: '',
+      productCount: 0,
+      products: [],
+      loading: true
     }
   }
 
   render() {
     return (
       <div>
-        <nav className="navbar navbar-dark fixed-top bg-dark flex-md-nowrap p-0 shadow">
-          <a
-            className="navbar-brand col-sm-3 col-md-2 mr-0"
-            href="http://www.dappuniversity.com/bootcamp"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Dapp University's Blockchain Marketplace
-          </a>
-          <ul className='navbar-nav px-3'>
-            <li className='nav-item text-nowrap d-none d-sm-none d-sm-block'>
-              <small className='text-white'><span id='account'>{this.state.account}</span></small>
-            </li>
-          </ul>
-        </nav>
+        <Navbar account={this.state.account}/>
         <div className="container-fluid mt-5">
           <div className="row">
             <main role="main" className="col-lg-12 d-flex text-center">
