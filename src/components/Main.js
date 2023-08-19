@@ -4,15 +4,15 @@ class Main extends Component {
 
   render() {
     return (
-        <div id= "content"> 
-            <h1>Add product</h1>
-            <form onSubmit={(event) => {
-                    event.preventDefault()
-                    const name = this.productName.value
-                    const price = window.web3.utils.toWei(this.productPrice.value.toString(), 'Ether')
-                    this.props.createProduct(name, price)
-            }}>
-            <div className="form-group mr-sm-2">
+      <div id="content">
+        <h1>Add Product</h1>
+        <form onSubmit={(event) => {
+          event.preventDefault()
+          const name = this.productName.value
+          const price = window.web3.utils.toWei(this.productPrice.value.toString(), 'Ether')
+          this.props.createProduct(name, price)
+        }}>
+          <div className="form-group mr-sm-2">
             <input
               id="productName"
               type="text"
@@ -20,8 +20,8 @@ class Main extends Component {
               className="form-control"
               placeholder="Product Name"
               required />
-            </div>
-            <div className="form-group mr-sm-2">
+          </div>
+          <div className="form-group mr-sm-2">
             <input
               id="productPrice"
               type="text"
@@ -29,7 +29,7 @@ class Main extends Component {
               className="form-control"
               placeholder="Product Price"
               required />
-            </div>
+          </div>
           <button type="submit" className="btn btn-primary">Add Product</button>
         </form>
         <p>&nbsp;</p>
@@ -45,14 +45,27 @@ class Main extends Component {
             </tr>
           </thead>
           <tbody id="productList">
-                <tr>
-                  <th scope="row">1</th>
-                  <td>Iphone x</td>
-                  <td>1 Eth</td>
-                  <td>0x3Fd2b12d238463dB3fB06c321106ead65d96FAf6</td>
-                  <td> <button>Buy</button>
-                    </td>
-                </tr>
+            <tr>
+              <th scope="row">1</th>
+              <td>iPhone x</td>
+              <td>1 Eth</td>
+              <td>0x39C7BC5496f4eaaa1fF75d88E079C22f0519E7b9</td>
+              <td><button className="buyButton">Buy</button></td>
+            </tr>
+            <tr>
+              <th scope="row">2</th>
+              <td>Macbook Pro</td>
+              <td>3 eth</td>
+              <td>0x39C7BC5496f4eaaa1fF75d88E079C22f0519E7b9</td>
+              <td><button className="buyButton">Buy</button></td>
+            </tr>
+            <tr>
+              <th scope="row">3</th>
+              <td>Airpods</td>
+              <td>0.5 eth</td>
+              <td>0x39C7BC5496f4eaaa1fF75d88E079C22f0519E7b9</td>
+              <td><button className="buyButton">Buy</button></td>
+            </tr>
           </tbody>
         </table>
       </div>
