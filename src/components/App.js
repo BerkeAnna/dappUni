@@ -76,20 +76,12 @@ class App extends Component {
   }
 
   createProduct(name, price) {
-  this.setState({ loading: true }, () => {
-    console.log("elotte");
-    console.log(this.state.marketplace.methods.createProduct(name, price));
-    
+    this.setState({ loading: true })
     this.state.marketplace.methods.createProduct(name, price).send({ from: this.state.account })
-    //console.log("ha ez megy, a once meg comment ezt kiírja")
-      .once('receipt', (receipt) => {
-        this.setState({ loading: false }, () => {
-          console.log("utana: " + this.state.marketplace.methods.createProduct);
-          console.log("price: " + price);
-        });
-      });
-  });
-}
+    .once('receipt', (receipt) => {
+      this.setState({ loading: false })
+    })
+  }
 
 purchaseProduct(id, price) {
   this.setState({ loading: true }, () => {
