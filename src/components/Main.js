@@ -50,9 +50,23 @@ class Main extends Component {
                 <tr key={key}>
                   <th scope="row">{product.id.toString()}</th>
                   <td>{product.name}</td>
-                  <td>{window.web3.utils.fromWei(product.price.toString(), 'Ether')}</td>
+                  <td>{window.web3.utils.fromWei(product.price.toString(), 'Ether')} Eth</td>
                   <td>{product.owner} </td>
-                  <td><button className="buyButton">Buy</button></td>
+                  <td>
+                    { !product.purchased
+                      ?
+                      <button 
+                          name = {product.id}
+                          value={product.price}
+                          onClick={(event)=> {
+                              this.props.purchaseProduct(event.target.name, event.target.value)
+                          }}
+                      >
+                        Buy
+                      </button>
+                      : null
+                    }
+                  </td>
                 </tr>
               )
             })}
